@@ -1,0 +1,188 @@
+<div class="mt-3">
+  <div *ngIf="authService.authType()=='admin'" class="input-group">
+    <div class="form-outline">
+      <input type="search" id="form1" placeholder="Okul İsmi" [(ngModel)]="info.schoolName" class="form-control" />
+
+    </div>
+    <div class="form-outline">
+      <input type="search" id="form1" placeholder="Sınıf Bigisi" [(ngModel)]="info.class" class="form-control" />
+
+    </div>
+    <div class="form-outline">
+      <input type="search" id="form1" placeholder="Öğrenci Okul Numaras" [(ngModel)]="info.schoolNumber" class="form-control" />
+
+    </div>
+    <button type="button" (click)="search()" class="btn btn-primary">
+      <i class="fas fa-search"></i>
+    </button>
+  </div>
+</div>
+<div class="row">
+  <div class="column">
+    <table class="table table-hover">
+      <thead  class="thead-dark">
+        <tr class="table-success">
+          <th scope="col">ÖĞRENCİ ADI</th>
+          <th scope="col">ÖĞRENCİ SOYİSMİ</th>
+          <th scope="col">ÖĞRENCİ TC KİMLİK NUMARASI</th>
+          <th scope="col">OKUL BİLGİLERİ    </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of student ; let i = index">
+          <td class="table-light">{{item.studentName}}</td>
+          <td class="table-light">{{item.studentSurname}}</td>
+          <td class="table-light">{{item.tc}}</td>
+          <td class="table-light"><button [disabled]="item.schoolInfoId==0" class="btn btn-outline-primary mb-2 mr-2" (click)="openXl(content,i)">Detaylar</button>
+            <button *ngIf="(item.schoolInfoId==0 && authService.authType()=='Admin')" class="btn btn-outline-info mb-2 mr-2" (click)="selectForm(1,i)">Yeni Ekle</button>
+            <button *ngIf="(item.schoolInfoId!=0 && authService.authType()=='Admin')" class="btn btn-outline-info mb-2 mr-2" (click)="selectForm(2,i)">Güncelle</button>
+          </td>
+        </tr>
+      </tbody>
+
+      </table>
+
+  </div>
+  <ng-template #content let-modal >
+    <div class="modal-header">
+      <h4 class="modal-title">Detaylar</h4>
+      <button type="button" class="btn btn-info"   (click)="exportPdf()">
+        <span aria-hidden="true">PDF olarak çıktı al</span>
+      </button>
+      <button type="button" class="btn btn-close" aria-label="Close"  (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <table class="table" id="payment">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Okul İsmi</th>
+            <th scope="col">Sınıf</th>
+            <th scope="col">Şube</th>
+            <th scope="col">Okul Numarası</th>
+            <th scope="col">Kayıt Yılı</th>
+            <th scope="col">Okul Ücreti</th>
+            <th scope="col">İndirimli Ücret</th>
+            <th scope="col">İndirim Yüzdesi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{schoolInfo.schoolName}}</td>
+            <td>{{schoolInfo.class}}</td>
+            <td>{{schoolInfo.branch}}</td>
+            <td>{{schoolInfo.schoolNumber}}</td>
+            <td>{{schoolInfo.dateOfRegistration}}</td>
+            <td>{{paymentInfo.loan}}</td>
+            <td>{{paymentInfo.loan-((paymentInfo.loan/100)*paymentInfo.discount)}}</td>
+            <td>{{paymentInfo.discount}}</td>
+
+          </tr>
+
+        </tbody>
+      </table>
+      <table class="table" id="paymentInfo">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Taksit</th>
+            <th scope="col">Yapılması Gereken Ödeme</th>
+            <th scope="col">Yapılan Ödeme</th>
+            <th scope="col">Eksik</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of counterFor(paymentInfo.installment) ; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{paidOfMonth}}</td>
+            <td >{{everyPaifOfMonths[i]}}</td>
+            <td >{{paidOfMonth-everyPaifOfMonths[i]}}</td>
+          </tr>
+          <br>
+          <br>
+          <tr>
+
+            <th scope="col">Kalan:</th>
+            <th scope="">{{(paymentInfo.loan-((paymentInfo.loan/100)*paymentInfo.discount))-paymentInfo.paid}}</th>
+            <th scope="col">Toplam Ödenen:</th>
+            <th scope="">{{paymentInfo.paid}}</th>
+          </tr>
+          <table>
+
+          </table>
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+  </ng-template>
+  <div class="column">
+
+
+
+<form #AddForm="ngForm" (ngSubmit)="onSubmit()" *ngIf="selected>0">
+  <h1 >Bilgiler</h1>
+<div class="form-control">
+    <label for="name">OKUL İSMİ</label>
+    <input type="text" placeholder="min. 3 karakter" #name="ngModel" [(ngModel)]="schoolInfo.schoolName" class="form-control" name="name" id="name" required minlength="3">
+    <div *ngIf="name.invalid&&name.dirty" class="alert alert-danger">En Az 2 Karakter Girilmelidir</div>
+</div>
+<div class="form-control">
+  <label for="dateOfRegistration">KAYIT YILI</label>
+  <input type="number" placeholder="2000-2022" #dateOfRegistration="ngModel" [(ngModel)]="schoolInfo.dateOfRegistration" class="form-control" name="dateOfRegistration" id="dateOfRegistration" required min="2000" max="2022">
+  <div *ngIf="dateOfRegistration.invalid&&dateOfRegistration.dirty" class="alert alert-danger">Hatalı girdi</div>
+</div>
+<div class="form-control">
+    <label for="surName">SINIF</label>
+    <input type="number" placeholder="SINIF BİLGİSİ GİRİNİZ" #surName="ngModel" [(ngModel)]="schoolInfo.class" class="form-control" name="class" id="class" required min="1" max="12">
+    <div *ngIf="surName.invalid&&surName.dirty" class="alert alert-danger">Hatalı girdi</div>
+</div>
+<div class="form-control">
+    <label for="branch">SINIF ŞUBESİ</label>
+    <input type="text" placeholder="Harf Giriniz" #branch="ngModel" [(ngModel)]="schoolInfo.branch" class="form-control" name="branch" id="branch" required min="1" max="1">
+    <div *ngIf="branch.errors?.min || branch.errors?.max" class="alert alert-danger">Harf Olmalıdır</div>
+</div>
+<div class="form-control">
+  <label for="schoolNumber">ÖĞRENCİ OKUL NUMARASI</label>
+  <input type="number" placeholder="OKUL NUMARASI" #schoolNumber="ngModel" [(ngModel)]="schoolInfo.schoolNumber" class="form-control" name="schoolNumber" id="schoolNumber" required minlength="1">
+  <div *ngIf="schoolNumber.invalid&&schoolNumber.dirty" class="alert alert-danger ">Yalnış Değer</div>
+</div>
+<div class="form-control">
+    <label for="loan">ÖDENMESİ GEREKEN MİKTAR</label>
+    <input type="number" placeholder="TUTAR GİRİNİZ" #loan="ngModel" [(ngModel)]="paymentInfo.loan"  class="form-control"  name="loan" id="loan"  required  >
+    <div *ngIf="loan.errors?.min || loan.errors?.max" class="alert alert-danger">11 Haneli olmalıdır</div>
+</div>
+<div class="form-control">
+    <label for="installment">TAKSİT SAYISI</label>
+    <input type="number" placeholder="1-12" #installment="ngModel" [(ngModel)]="paymentInfo.installment" class="form-control" name="installment" id="installment" required min="1" max="12">
+    <div *ngIf="installment.errors?.min || installment.errors?.max" class="alert alert-danger">10 Haneli olmalıdır</div>
+</div>
+<div class="form-control">
+    <label for="discount">İNDİRİM YÜZDESİ</label>
+    <input type="text" placeholder="0-99" #discount="ngModel" [(ngModel)]="paymentInfo.discount" class="form-control" name="discount" id="fatherName" required min="0" max="99">
+    <div *ngIf="discount.invalid&&discount.dirty" class="alert alert-danger">En Az 3 Karakter Girilmelidir</div>
+</div>
+<div class="form-control">
+    <label for="startMonth">TAKSİT BAŞLANGIÇ AYI</label>
+    <input type="number" placeholder="1-12" #startMonth="ngModel" [(ngModel)]="paymentInfo.startMonth" class="form-control" name="startMonth" id="startMonth" required min="1" max="12" >
+    <div *ngIf="startMonth.errors?.min || startMonth.errors?.max" class="alert alert-danger">10 Haneli olmalıdır</div>
+</div>
+<div class="form-control">
+  <label for="startYear">TAKSİT BAŞLANGIÇ YILI</label>
+  <input type="number" placeholder="2021-2023" #startYear="ngModel" [(ngModel)]="paymentInfo.startYear" class="form-control" name="startYear" id="startYear" required min="2021" max="2023" >
+  <div *ngIf="startYear.errors?.min || startYear.errors?.max" class="alert alert-danger">10 Haneli olmalıdır</div>
+</div>
+<div class="form-control">
+  <label for="paid">ÖDENEN TOPLAM TUTAR</label>
+  <input type="number" placeholder="Miktar Giriniz" #paid="ngModel" [(ngModel)]="paymentInfo.paid"
+   class="form-control" name="paid" id="paid" required min="0" max="{{(paymentInfo.loan-((paymentInfo.loan/100)*paymentInfo.discount))}}" >
+  <div *ngIf="paid.errors?.min" class="alert alert-danger">Hatalı Girdi</div>
+</div>
+<div>
+<button type="submit" class="btn btn-primary" [disabled]="AddForm.invalid" >KAYDET</button>
+</div>
+</form>
+
+</div>
+</div>

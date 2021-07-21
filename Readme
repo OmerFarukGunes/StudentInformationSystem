@@ -1,0 +1,20 @@
+Projenin amacı angular, webapi, sql-lite, TypeScript ve bunlara bağlı olan teknoloilerde kendimi geliştirmektir. 
+Projede 3 farklı kullanıcı yer almakta.
+Öğrenci
+-Öğrenci sadece kendi kişisel bilgilerini görüntüleyebilir.
+Ebeveyn
+-Bir ebeveyn ailesinde bulunan öğrencileri görebilir. Öğrenciler için okul ödemelerini görüntüleyebilir ve bunları çıktı olarak alabilir.
+Admin 
+-Sisteme yeni bir öğrenciyi ailesiyle beraber ekleyebilir.
+-Aileye öğrenci ekleyebilir.
+-Ailenin ödemelerini düzenleyebilir veya yenisini ekleyebilir.
+-Öğrenci listesinde ve aile listesinde arama yapabilir.
+-Eksta olarak ülkeler ve o ülkelerdeki okullarda bulunan çaışan sayısı buna bağlı olarakta o okullardaki öğrenci sayısını tutan tablolarda ki
+değerleri grafikler halinde görüntüleyebilir, karşılaştırma yapabilir.
+-Admin sisteme yeni bir kullanıcı kayıt ettiğinde kullanıcının şifresi rastgele oluşturulup mail olarak gönderilmektedir.
+
+Admin hesabı: admin@admin.com 1234Abc.
+
+projeyi başatmak için clientapp dosyasını vs_code ile açın npm install dedikten sonra modül kurulumlarının bitmesini bekleyin.
+ServerApp dosyasını ayrıyeten vs_code veya herhangi bir derleyici ile açın ve dotnet run veya bildiğiniz bir yöntemle başlatın.
+Client tarafında kurulumlar bittikten sonra ng-serve diyerek projeyi başlatabilirsiniz.

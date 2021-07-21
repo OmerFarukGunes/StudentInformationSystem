@@ -1,0 +1,82 @@
+<form *ngIf="searchOrgName.length>0" role="form" #MySelectForm="ngForm" (submit)="search()">
+  <div class="form-group">
+    <fieldset class="form-group">
+      <label>Ulkelere Gore Filtre</label>
+      <ng-select class="custom"
+        [items]="searchOrgName"
+        [multiple]="true"
+        name="name"
+        bindValue="organizationName"
+        bindLabel="organizationName"
+        placeholder="Select"
+        required
+        [(ngModel)]="selectOrgName"
+      >
+      </ng-select>
+    </fieldset>
+    <fieldset class="form-group">
+      <label>Meslege Gore Filtre</label>
+      <ng-select class="custom"
+        [items]="searchAppName"
+        [multiple]="true"
+        name="name"
+        bindValue="appellationName"
+        bindLabel="appellationName"
+        placeholder="Select"
+        required
+        [(ngModel)]="selectAppName"
+      >
+      </ng-select>
+    </fieldset>
+  </div>
+  <div class="form-group">
+    <fieldset class="form-group">
+      <button class="btn btn-primary">Submit</button>
+    </fieldset>
+  </div>
+</form>
+
+<div class="horizontal-scrollable">
+  <div class="row text-center column">
+
+<dx-chart
+id="chart"
+[dataSource]="organizationEmployee"
+palette="violet"
+(onPointClick)="pointClick($event)"
+>
+<dxo-common-series-settings
+    argumentField="organizationName"
+    type="stackedBar"
+    valueField="count"
+    [barPadding]="0"
+    >
+</dxo-common-series-settings>
+<dxo-series-template
+    nameField="appellationName"
+  >
+</dxo-series-template>
+<dxo-title text="ÜLKELERİN ÇALIŞANLARINA GÖRE GRAFİKLERİ">
+    <dxo-subtitle text="Çalışan Türleriyle Beraber"></dxo-subtitle>
+</dxo-title>
+<dxo-legend
+    verticalAlignment="bottom"
+    horizontalAlignment="left">
+</dxo-legend>
+<dxo-label [visible]="true">
+  <dxo-connector
+      [visible]="true"
+      [width]="1"></dxo-connector>
+</dxo-label>
+<dxo-tooltip
+  [enabled]="true"
+  location="edge"
+  [customizeTooltip]="customizeTooltip">
+</dxo-tooltip>
+
+<dxo-size [width]="width" [height]="height"></dxo-size>
+<dxo-export [enabled]="true"></dxo-export>
+
+</dx-chart>
+  </div>
+</div>

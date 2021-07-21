@@ -1,0 +1,79 @@
+<body>
+<app-navbar></app-navbar>
+
+  <div class="container-fluid" *ngIf="logged">
+
+    <div class="row">
+
+      <nav  id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+        <div class="position-sticky pt-3">
+
+          <ul  *ngIf="role=='Admin'" class="nav flex-column">
+            <li  class="nav-item">
+              <a class="nav-link active" aria-current="page" routerLink="/FamilyList" >
+                <span data-feather="home"></span>
+                Ebeveyn Listesi
+              </a>
+            </li>
+            <li  class="nav-item">
+              <a class="nav-link active" aria-current="page" routerLink="/List">
+                <span data-feather="home"></span>
+                Öğrenci Listesi
+              </a>
+            </li>
+            <li  class="nav-item">
+              <a class="nav-link"  routerLink="/AddForm">
+                <span data-feather="file"></span>
+                Öğrenci Ekleme
+              </a>
+            </li>
+            <li  class="nav-item">
+              <a class="nav-link active" aria-current="page" routerLink="/SchoolDetail">
+                <span data-feather="home"></span>
+                Okul/Ödeme Bilgileri
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"routerLink="/AddAdmin" >
+                <span data-feather="shopping-cart"> </span>
+                Admin Ekleme
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"routerLink="/statisticEmployee" >
+                <span data-feather="shopping-cart"> </span>
+                İstatistikler
+              </a>
+            </li>
+          </ul>
+          <ul *ngIf="role=='Student'">
+            <li  class="nav-item">
+              <a class="nav-link active" aria-current="page" [routerLink]="['/StudentDetail/' + id]" routerLinkActive="router-link-active"  >
+                <span data-feather="home"></span>
+                Öğrenci
+              </a>
+            </li>
+          </ul>
+          <ul *ngIf="role=='Parent'">
+            <li  class="nav-item">
+              <a class="nav-link active" aria-current="page" [routerLink]="['/ParentDetail/' + id]"  >
+                <span data-feather="home"></span>
+                Veli
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          <router-outlet></router-outlet>
+
+      </main>
+    </div>
+  </div>
+  <main *ngIf="logged==false">
+    <router-outlet></router-outlet>
+
+</main>
+</body>
+

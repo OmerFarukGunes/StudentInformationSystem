@@ -1,0 +1,17 @@
+<div class="mt-3">
+  <h1>Admin Ekle</h1>
+  <form #AddForm="ngForm" (ngSubmit)="add()">
+  <div class="form-group">
+    <label for="address">ADMİN EMAİL ADRESİ</label>
+    <input type="email" #email="ngModel" required name="email" email [(ngModel)]="user.email" class="form-control" placeholder="example@exapmple.com">
+    <div class="alert alert-danger" *ngIf="email.invalid&&email.touched"> <p>email is invalid</p></div>
+  </div>
+  <div>
+  <button type="submit" class="btn btn-primary" [disabled]="AddForm.invalid">KAYDET</button>
+  </div>
+    <!-- form gecerli degilse pasif kalir  -->
+
+
+  </form>
+
+</div>

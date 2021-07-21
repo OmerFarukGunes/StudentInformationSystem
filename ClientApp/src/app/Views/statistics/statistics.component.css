@@ -1,0 +1,32 @@
+
+  .column{
+    color: white;
+    font-size: 24px;
+    padding-bottom: 20px;
+    padding-top: 18px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    font-size: 24px;
+    padding-bottom: 20px;
+    padding-top: 18px;
+    float: none;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  #chart{
+
+    display: flex;
+    flex-direction: column;
+  }
+  .ng-select.ng-invalid.ng-touched .ng-select-container{
+    border-color: red;
+}
+/* Arrow Color */
+.ng-select.ng-invalid.ng-touched .ng-arrow-wrapper .ng-arrow{
+    border-color: red transparent transparent
+}
+/* Placeholder Color */
+.ng-select.ng-invalid.ng-touched .ng-select-container .ng-placeholder{
+    color: red;
+}

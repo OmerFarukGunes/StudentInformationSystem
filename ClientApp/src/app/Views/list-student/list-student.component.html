@@ -1,0 +1,50 @@
+<div class="mt-3">
+  <div class="input-group">
+    <div class="form-outline">
+      <input type="search" id="form1" placeholder="Öğrenci İsmi" [(ngModel)]="info.studentName" class="form-control" />
+
+    </div>
+    <div class="form-outline">
+      <input type="search" id="form1" placeholder="Öğrenci Soyismi" [(ngModel)]="info.studentSurname" class="form-control" />
+
+    </div>
+    <div class="form-outline">
+      <input type="search" id="form1" placeholder="Öğrenci TC bilgisi" [(ngModel)]="info.tc" class="form-control" />
+    </div>
+    <button type="button" (click)="search()" class="btn btn-primary">
+      <i class="fas fa-search"></i>
+    </button>
+  </div>
+</div>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">İSİM</th>
+      <th scope="col">SOYAD</th>
+      <th scope="col">TC NUMARASI</th>
+      <th scope="col">İKAMETGAH ŞEHRİ</th>
+      <th scope="col">ADRES</th>
+      <th scope="col">CİNSİYET</th>
+      <th scope="col">İŞLEMLER</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let student of students!; let i = index" >
+      <th scope="row">{{i+1}}</th>
+      <td>{{student.studentName}}</td>
+      <td>{{student.studentSurname}}</td>
+      <td>{{student.tc}}</td>
+      <td>{{student.city}}</td>
+      <td>{{student.address}}</td>
+      <td>{{student.gender}}</td>
+      <button class="btn btn-sm btn-outline-info" [routerLink]="['/StudentDetail/', student.loginId]"> Öğrenci Detayı</button>
+      <button class="btn btn-sm btn-outline-info" [routerLink]="['/SchoolDetail/',student.studentId]">Okul/Ödeme</button>
+      <button class="btn btn-sm btn-outline-primary" [routerLink]="['/AddForm/', student.studentId]"> Düzenle</button>
+      <button class="btn btn-sm btn-outline-danger" (click)="onDelete(student.studentId)"> Sil</button>
+    </tr>
+
+  </tbody>
+</table>

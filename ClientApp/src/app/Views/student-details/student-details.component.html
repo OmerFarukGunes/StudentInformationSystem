@@ -1,0 +1,37 @@
+<div class="mt-3">
+  <table class="table table-hover">
+    <tbody>
+      <tr>
+        <td class="table-info">İSİM</td>
+        <td class="table-light">{{student.studentName}}</td>
+      </tr>
+      <tr>
+        <td class="table-info">SOYAD</td>
+        <td class="table-light">{{student.studentSurname}}</td>
+      </tr>
+      <tr>
+        <td class="table-info">TC NUMARASI</td>
+        <td class="table-light">{{student.tc}}</td>
+      </tr>
+      <tr>
+        <td class="table-info">CİNSİYET</td>
+        <td class="table-light">{{student.gender}}</td>
+      </tr>
+      <tr>
+        <td class="table-info">İKAMET EDİLEN ŞEHİR</td>
+        <td class="table-light">{{student.city}}</td>
+      </tr>
+      <tr>
+        <td class="table-info">ADRES</td>
+        <td class="table-light">{{student.address}}</td>
+      </tr>
+      <tr *ngIf="this.authService.authType()=='Admin'">
+        <td class="table-info">OKUL VE ÖDENEK BİLGİLERİ</td>
+        <td class="table-light"><button class="btn btn-sm btn-info" [routerLink]="['/SchoolDetail/',student.studentId]">Detaylar</button>
+        </td>
+      </tr>
+    </tbody>
+
+    </table>
+</div>
+
